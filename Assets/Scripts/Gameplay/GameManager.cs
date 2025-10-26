@@ -12,13 +12,13 @@ public class GameManager : MonoBehaviour
     {
         Player playerInstance = playerFactory.Create(startPosition);
         cameraMovement.SetTarget(playerInstance.transform);
-        enemySpawner.Init(playerInstance);
+        enemySpawner?.Init(playerInstance);
         EventManager.Instance.OnPlayerDead += OnGameOver;
     }
 
     private void OnGameOver()
     {
         EventManager.Instance.OnPlayerDead -= OnGameOver;
-        enemySpawner.StopSpawning();
+        enemySpawner?.StopSpawning();
     }
 }

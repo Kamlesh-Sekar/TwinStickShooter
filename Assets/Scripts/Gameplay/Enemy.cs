@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour
 {
     private NavMeshAgent agent;
     private HealthComponent healthComponent;
+    private AnimatorController animatorController;
 
     private Transform targetTransform;
 
@@ -13,6 +14,7 @@ public class Enemy : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         healthComponent = GetComponent<HealthComponent>();
+        animatorController = GetComponent<AnimatorController>();
     }
 
     private void OnEnable()
@@ -42,6 +44,8 @@ public class Enemy : MonoBehaviour
         if (other.tag.Equals("Bullet"))
         {
             healthComponent.TakeDamage(1);
+            animatorController.TriggerHitAnimation();
+            agent.speed = 0.5f;
         }
     }
 

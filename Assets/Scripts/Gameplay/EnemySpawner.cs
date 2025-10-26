@@ -35,11 +35,11 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator SpawnEnemy()
     {
-        yield return new WaitForSeconds(spawnInterval);
         Transform spawnTransform = spawnPoints[Random.Range(0, spawnPoints.Length)];
         Enemy enemyInstance = enemyFactory.Create(spawnTransform);
         enemies.Add(enemyInstance);
         enemyInstance.SetTarget(playerInstance.transform);
+        yield return new WaitForSeconds(spawnInterval);
         spawnCoroutine = StartCoroutine(SpawnEnemy());
     }
 
