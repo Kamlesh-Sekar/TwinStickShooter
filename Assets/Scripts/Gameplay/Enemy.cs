@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,6 +8,7 @@ public class Enemy : MonoBehaviour
     private NavMeshAgent agent;
     private HealthComponent healthComponent;
     private AnimatorController animatorController;
+    private BoxCollider boxCollider;
 
     private Transform targetTransform;
 
@@ -15,6 +17,7 @@ public class Enemy : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         healthComponent = GetComponent<HealthComponent>();
         animatorController = GetComponent<AnimatorController>();
+        boxCollider = GetComponent<BoxCollider>();
     }
 
     private void OnEnable()
@@ -45,13 +48,23 @@ public class Enemy : MonoBehaviour
         {
             healthComponent.TakeDamage(1);
             animatorController.TriggerHitAnimation();
-            agent.speed = 0.5f;
+            agent.speed = 0f;
+            StartCoroutine(MoveAgentAfterDelay(2.1f));
         }
+    }
+
+    private IEnumerator MoveAgentAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        agent.speed = 0.5f;
     }
 
     public void OnDead()
     {
         EventManager.Instance.EnemyDead(this);
-        Destroy(gameObject);
+        agent.speed = 0f;
+        agent.isStopped = true;
+        boxCollider.enabled = false;
+        animatorController.TriggerRandomDeadAnimation();
     }
 }

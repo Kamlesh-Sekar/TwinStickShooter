@@ -13,4 +13,15 @@ public class AnimatorController : MonoBehaviour
     {
         animator.SetTrigger("Hit");
     }
+
+    public void TriggerDeadAnimation()
+    {
+        animator.SetTrigger("Dead");
+    }
+
+    public void TriggerRandomDeadAnimation()
+    {
+        animator.SetInteger("RandomDeath", Random.Range(0, 2));
+        TriggerDeadAnimation();
+    }
 }
